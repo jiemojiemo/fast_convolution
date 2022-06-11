@@ -1,3 +1,6 @@
 [submodule "3rdparty/kissfft"]
 	path = 3rdparty/kissfft
 	url = git@github.com:mborgerding/kissfft.git
+[submodule "3rdparty/portaudio"]
+	path = 3rdparty/portaudio
+	url = git@github.com:PortAudio/portaudio.git
