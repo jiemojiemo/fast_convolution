@@ -17,3 +17,8 @@ target_include_directories(fast_convolution
 
 add_executable(main main.cpp)
 target_link_libraries(main PRIVATE fast_convolution kissfft)
+
+if (ENABLE_ASAN)
+    target_compile_options(main PRIVATE -fsanitize=address)
+    target_link_options(main PRIVATE -fsanitize=address)
+endif ()
