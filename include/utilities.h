@@ -20,6 +20,14 @@ public:
         }
         std::cout << std::endl;
     }
+
+    static void leftShift(std::vector<float> &x, int shift, float pad_value) {
+        shift = shift % x.size();
+
+        std::copy(x.begin() + shift, x.end(), x.begin());
+
+        std::fill(x.end() - shift, x.end(), pad_value);
+    }
 };
 
 #endif//FAST_CONVOLUTION_UTILITIES_H

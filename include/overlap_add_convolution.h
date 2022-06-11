@@ -26,12 +26,11 @@ public:
         const int num_block = ceil(1.0 * x.size() / block_length_);
         const int conv_output_size = x.size() + h.size() - 1;
 
-        // read block
         for (int i = 0; i < num_block; ++i) {
             unwrap(x, i);
 
             fft_conv_.convolution(unwrap_block_x_, h, block_y_.data());
-            
+
             // overlap add
             overlap_add(i, conv_output_size, y);
         }

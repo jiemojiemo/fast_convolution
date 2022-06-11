@@ -16,6 +16,11 @@ public:
     void prepare(int x_length,
                  int h_length) {
         K_ = x_length + h_length - 1;
+        prepare(K_);
+    }
+
+    void prepare(int K) {
+        K_ = K;
         fft_size_ = Utilities::nextPower2Number(K_);
         fft_ = std::make_unique<FFT>(fft_size_);
 
@@ -38,9 +43,9 @@ public:
                      const std::vector<float> &h,
                      float *y) {
 
-        assert((x.size() + h.size() - 1) == K_);
+        //        assert((x.size() + h.size() - 1) == K_);
 
-        zero_padding(x, h);
+        zeroPadding(x, h);
 
         // fft multiple
         fft_->forward(padding_x_.data(), (kiss_fft_cpx *) (X_.data()));
@@ -60,8 +65,8 @@ public:
     }
 
 private:
-    void zero_padding(const std::vector<float> &x,
-                      const std::vector<float> &h) {
+    void zeroPadding(const std::vector<float> &x,
+                     const std::vector<float> &h) {
         std::fill(padding_x_.begin(), padding_x_.end(), 0.0f);
         std::fill(padding_h_.begin(), padding_h_.end(), 0.0f);
 
