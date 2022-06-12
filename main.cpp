@@ -1,11 +1,11 @@
 //
 // Created by user on 6/9/22.
 //
-#include "fft.h"
-#include "fft_convolution.h"
-#include "native_convolution.h"
-#include "overlap_add_convolution.h"
-#include "overlap_save_convoluton.h"
+#include "fast_convolution/fft.h"
+#include "fast_convolution/fft_convolution.h"
+#include "fast_convolution/native_convolution.h"
+#include "fast_convolution/overlap_add_convolution.h"
+#include "fast_convolution/overlap_save_convoluton.h"
 #include <complex>
 #include <iostream>
 #include <vector>

@@ -6,11 +6,14 @@
 #define FAST_CONVOLUTION_UTILITIES_H
 
 #pragma once
-#include <vector>
+#include <cmath>
 #include <iostream>
+#include <vector>
 class Utilities {
 public:
     static size_t nextPower2Number(size_t k) {
+        if (k == 0) return 2;
+
         return 1 << int(log2(k - 1) + 1);
     }
 

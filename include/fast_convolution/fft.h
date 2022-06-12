@@ -9,9 +9,20 @@
 #include "kiss_fftr.h"
 class FFT {
 public:
-    FFT(int fft_size) {
+    FFT(int fft_size)
+        : fft_size_(fft_size)
+    {
         fft_forward_ = kiss_fftr_alloc(fft_size, 0, NULL, NULL);
         fft_inverse_ = kiss_fftr_alloc(fft_size, 1, NULL, NULL);
+    }
+
+    ~FFT() {
+        kiss_fftr_free(fft_forward_);
+        kiss_fftr_free(fft_inverse_);
+    }
+
+    size_t getFFTSize() const{
+        return fft_size_;
     }
 
     void forward(const float *time_data,
@@ -24,14 +35,10 @@ public:
         kiss_fftri(fft_inverse_, freq_data, time_data);
     }
 
-    ~FFT() {
-        kiss_fftr_free(fft_forward_);
-        kiss_fftr_free(fft_inverse_);
-    }
-
 private:
     kiss_fftr_cfg fft_forward_{NULL};
     kiss_fftr_cfg fft_inverse_{NULL};
+    size_t fft_size_{0};
 };
 
 #endif//FAST_CONVOLUTION_FFT_H

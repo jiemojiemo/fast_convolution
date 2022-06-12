@@ -13,12 +13,16 @@ target_include_directories(fast_convolution
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
         )
+target_link_libraries(fast_convolution PUBLIC kissfft)
 
 
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE fast_convolution kissfft)
+target_link_libraries(main PRIVATE fast_convolution)
 
 if (ENABLE_ASAN)
     target_compile_options(main PRIVATE -fsanitize=address)
     target_link_options(main PRIVATE -fsanitize=address)
 endif ()
+
+enable_testing()
+add_subdirectory(tests)
