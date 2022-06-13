@@ -82,6 +82,10 @@ public:
         return sliding_block_;
     }
 
+    size_t getBlockSize() const{
+        return block_size_;
+    }
+
 private:
     void precalcSubFiltersFFT(size_t block_size, const float *h, size_t h_size) {
         for (int i = 0; i < num_sub_filter_; ++i) {
