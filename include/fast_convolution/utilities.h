@@ -17,7 +17,8 @@ public:
         return 1 << int(log2(k - 1) + 1);
     }
 
-    static void printVector(const std::vector<float> &x) {
+    template<class T>
+    static void printVector(const std::vector<T> &x) {
         for (const auto item: x) {
             std::cout << item << ",";
         }

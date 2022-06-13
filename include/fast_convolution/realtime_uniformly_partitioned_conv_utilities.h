@@ -47,9 +47,13 @@ public:
         fft_->forward(sliding_block_.data(), (kiss_fft_cpx *) (next_writable_freqs.data()));
 
         // summing
+        std::fill(fft_summing_.begin(), fft_summing_.end(), 0);
+
         for (int i = 0; i < num_sub_filter_; ++i) {
             const Frequencies &current_sub_filter = sub_filters_fft_[i];
             const Frequencies &delayed_freq = freqs_delay_line_.getDelayedFrequencies(i);
+
+            //            Utilities::printVector(delayed_freq);
 
             for (int j = 0; j < half_fft_size_; ++j) {
                 fft_summing_[j] += (current_sub_filter[j] * delayed_freq[j]);
@@ -82,7 +86,7 @@ public:
         return sliding_block_;
     }
 
-    size_t getBlockSize() const{
+    size_t getBlockSize() const {
         return block_size_;
     }
 

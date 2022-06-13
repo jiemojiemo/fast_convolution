@@ -6,8 +6,9 @@
 #define FAST_CONVOLUTION_FFT_CONVOLUTION_H
 
 #pragma once
+#include "fast_convolution/fft.h"
+#include "fast_convolution/utilities.h"
 #include "kiss_fftr.h"
-#include "utilities.h"
 #include <complex>
 #include <memory>
 #include <vector>
