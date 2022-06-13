@@ -2,6 +2,7 @@
 // Created by user on 6/12/22.
 //
 #include "fast_convolution/frequency_domain_delay_line.h"
+#include "fast_convolution/utilities.h"
 #include <gmock/gmock.h>
 
 using namespace testing;
@@ -16,9 +17,18 @@ public:
 TEST_F(AFrequencyDomainDelayLine, InitWithSize) {
     FrequencyDomainDelayLine delay_line(delay_line_size, freq_size);
 
-    ASSERT_THAT(delay_line.freqs.size(), Eq(delay_line_size));
-    ASSERT_THAT(delay_line.freqs[0].size(), Eq(freq_size));
+    ASSERT_THAT(delay_line.freqs_array.size(), Eq(delay_line_size));
+    ASSERT_THAT(delay_line.freqs_array[0].size(), Eq(freq_size));
 }
+
+TEST_F(AFrequencyDomainDelayLine, CanResize) {
+    FrequencyDomainDelayLine delay_line;
+    delay_line.resize(delay_line_size, freq_size);
+
+    ASSERT_THAT(delay_line.freqs_array.size(), Eq(delay_line_size));
+    ASSERT_THAT(delay_line.freqs_array[0].size(), Eq(freq_size));
+}
+
 
 TEST_F(AFrequencyDomainDelayLine, CanGetNextWriteIndex) {
     FrequencyDomainDelayLine delay_line(delay_line_size, freq_size);
@@ -47,4 +57,18 @@ TEST_F(AFrequencyDomainDelayLine, NextWriteIndexLooped) {
     }
 
     ASSERT_THAT(next_write_index, Eq(num_get % delay_line_size - 1));
+}
+
+TEST_F(AFrequencyDomainDelayLine, CanDelayedFrequenciesIndex) {
+    FrequencyDomainDelayLine delay_line(delay_line_size, freq_size);
+
+    ASSERT_THAT(delay_line.getDelayedFrequenciesIndex(0), Eq(1));
+    ASSERT_THAT(delay_line.getDelayedFrequenciesIndex(1), Eq(0));
+    ASSERT_THAT(delay_line.getDelayedFrequenciesIndex(2), Eq(1));
+}
+
+TEST_F(AFrequencyDomainDelayLine, CanGetDelayedFrequencies) {
+    FrequencyDomainDelayLine delay_line(delay_line_size, freq_size);
+
+    delay_line.getDelayedFrequencies(0);
 }
