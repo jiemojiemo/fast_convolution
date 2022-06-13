@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
-
 project(fast_convolution)
 
 set(CMAKE_CXX_STANDARD 17)
+
+if (ENABLE_ASAN)
+    message(STATUS "build with ASAN")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+endif ()
 
 add_subdirectory(3rdparty)
 
@@ -15,14 +19,7 @@ target_include_directories(fast_convolution
         )
 target_link_libraries(fast_convolution PUBLIC kissfft)
 
-
-add_executable(main main.cpp)
-target_link_libraries(main PRIVATE fast_convolution)
-
-if (ENABLE_ASAN)
-    target_compile_options(main PRIVATE -fsanitize=address)
-    target_link_options(main PRIVATE -fsanitize=address)
-endif ()
+add_subdirectory(example)
 
 enable_testing()
 add_subdirectory(tests)
