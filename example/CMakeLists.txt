@@ -1,5 +1,5 @@
 add_executable(realtime_conv realtime_conv.cpp)
-target_link_libraries(realtime_conv PRIVATE fast_convolution)
+target_link_libraries(realtime_conv PRIVATE fast_convolution PortAudio dr_libs)
 
 add_executable(conv_test conv_test.cpp)
 target_link_libraries(conv_test PRIVATE fast_convolution)

@@ -53,8 +53,6 @@ public:
             const Frequencies &current_sub_filter = sub_filters_fft_[i];
             const Frequencies &delayed_freq = freqs_delay_line_.getDelayedFrequencies(i);
 
-            //            Utilities::printVector(delayed_freq);
-
             for (int j = 0; j < half_fft_size_; ++j) {
                 fft_summing_[j] += (current_sub_filter[j] * delayed_freq[j]);
             }
@@ -94,7 +92,14 @@ private:
     void precalcSubFiltersFFT(size_t block_size, const float *h, size_t h_size) {
         for (int i = 0; i < num_sub_filter_; ++i) {
             std::fill(time_domain_buffer_.begin(), time_domain_buffer_.end(), 0.0f);
-            std::copy_n(h + i * block_size, block_size, time_domain_buffer_.data());
+            int begin_index = i * block_size;
+            int end_index = begin_index + block_size;
+            if (end_index > h_size) {
+                end_index = h_size;
+            }
+            int actual_size = end_index - begin_index;
+
+            std::copy_n(h + i * block_size, actual_size, time_domain_buffer_.data());
             fft_->forward(time_domain_buffer_.data(), (kiss_fft_cpx *) sub_filters_fft_[i].data());
         }
     }
