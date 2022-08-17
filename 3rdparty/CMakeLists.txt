@@ -1,5 +1,3 @@
-set(KISSFFT_TOOLS OFF)
-set(KISSFFT_TEST OFF)
 add_subdirectory(kissfft)
 add_subdirectory(googletest)
 add_subdirectory(portaudio)
