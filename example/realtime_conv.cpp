@@ -27,11 +27,6 @@ std::vector<float> loadAudioFile(const std::string &file_path,
         exit(-1);
     }
 
-    if (wav.channels != 1) {
-        cerr << "only support mono file" << endl;
-        exit(-1);
-    }
-
     *sr = wav.sampleRate;
 
     std::vector<float> samples(wav.channels * wav.totalPCMFrameCount);
@@ -39,7 +34,16 @@ std::vector<float> loadAudioFile(const std::string &file_path,
 
     drwav_uninit(&wav);
 
-    return samples;
+    if (wav.channels == 1) {
+        return samples;
+    } else if (wav.channels == 2) {
+        // just take left channel data;
+        std::vector<float> mono_data(wav.totalPCMFrameCount, 0.0f);
+        for (int i = 0; i < wav.totalPCMFrameCount; ++i) {
+            mono_data[i] = samples[i * wav.channels];
+        }
+        return mono_data;
+    }
 }
 
 static int patestCallback(const void *inputBuffer, void *outputBuffer,
@@ -76,7 +80,7 @@ static void streamFinished(void *userData) {
 int main(int argc, char *argv[]) {
 
     const auto input_file = "/Users/user/Downloads/voice_mono.wav";
-    const auto impulse_file = "/Users/user/Downloads/On a Star_01.wav";
+    const auto impulse_file = "/Users/user/Documents/develop/convolution/sounds/PlateSmall_01.wav";
     int input_sr;
     int impulse_sr;
     const int kNumSeconds = 10;
