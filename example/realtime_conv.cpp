@@ -58,11 +58,12 @@ static int patestCallback(const void *inputBuffer, void *outputBuffer,
     (void) timeInfo; /* Prevent unused variable warnings. */
     (void) statusFlags;
     (void) inputBuffer;
+    static const float kScale = 0.3;
 
     for (i = 0; i < framesPerBuffer; i++) {
         float in = data->input_samples[data->input_read_pointer++];
         float o = data->conv.processSample(in);
-        out[i] = o;
+        out[i] = o * kScale;
 
         if (data->input_read_pointer >= data->input_samples.size()) {
             return paComplete;
